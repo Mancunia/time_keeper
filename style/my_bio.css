@@ -1,0 +1,66 @@
+
+
+
+#lst_coat{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width:30%;
+    border: 30px solid;
+    border-color: -moz-linear-gradient(top, #0779d6, #18077a);
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+.blog{
+    
+    background-color:black;
+}
+
+.caro_img{
+    width:inherit;
+    height:60%;
+}
+
+/* .card_les {
+    float: left;
+    max-width: 33.333%;
+    padding: .75rem;
+    margin-bottom: 2rem;
+    border: 0;
+    flex-basis: 33.333%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    height:100%;
+
+  
+  } */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 990px) {
+    #lst_coat{
+       width:96%;
+       border: 50px solid;
+    }
+    .btn_login{
+        width:100%;
+        
+        
+    }
+    }
