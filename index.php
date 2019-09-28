@@ -38,6 +38,15 @@ echo $feed;
 mysqli_close($db->getdbconnect());
 }
 
+if(isset($_POST['signout_btn'])){
+  //Get value from html tag
+  $phone=$_POST['password'];
+  //pass it to the signout function
+  $feed= $guest->sign_out($phone);
+echo $feed;
+
+}
+
 ?>
 
 <!doctype html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -87,13 +96,18 @@ mysqli_close($db->getdbconnect());
                 <div class="class=" col-md-6 offset-md-3 col-sm-12"">
 
                     <div class="row">
-            
+                    <div class="col-sm-4 form-group">
+                            <strong><b>Username</b></strong></div>
+                            <div class="col-sm-8 form-group">
+                            <input type="password" name="modal_u_name" placeholder="The Username" class="form-control" cols="30" size="10"> </div>
+                  
+                    </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-4 form-group">
                             <strong><b>Phone number</b></strong></div>
                             <div class="col-sm-8 form-group">
-                            <input type="password" name="companyPhone" placeholder="eg: +233245052365" class="form-control" cols="30" size="10"> </div>
+                            <input type="password" name="modalPhone" placeholder="eg: +233245052365" class="form-control" cols="30" size="10"> </div>
                   
                     </div>
                     <button type="submit" name="signout_btn" class="btn btn-md btn-success">Submit</button>
@@ -128,17 +142,21 @@ mysqli_close($db->getdbconnect());
     <input type="text" class="form-control" id="pwd" name="phone" required autofill="off" placeholder="Like: 0245365478">
   </div>
   <div class="form-group login">
-    <label class="label_div" for="email">Motive:</label>
-    <textarea rows="5" cols="40" class="form-control-md" name="motive" required>
+    <div class="row"><label class="label_div col-3" for="email">Motive:</label></div>
+    <textarea rows="5" cols="30" class="form-control-md col-11" name="motive" required>
        
     </textarea>
+    
   </div>
   <div>
   <button name="signin_btn" type="submit" class="btn btn-success btn_login">Login</button>
 
   <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary btn_login" data-toggle="modal" data-target="#exampleModalCenter">
+  <a type="button" href="logout.php" class="btn btn-primary btn_login" >
   Logout
+</a>
+<button class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter">
+Admin
 </button>
 </div>
 </form>

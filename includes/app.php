@@ -81,6 +81,58 @@ catch (PDOException $ex){
 
     }
 
+    function todayIn(){
+        try {
+            //instance of db
+            $conn = new Database();
+            //get connection
+        $db=$conn->getdbconnect();
+
+        //query
+        $results=mysqli_query($db,"call today_in()");
+        // return $results;
+        // echo count($amnt);
+        while($amnt=mysqli_fetch_array($results)){
+            //     <button type="button" class="btn btn-secondary" >
+            //   Tooltip on bottom
+            // </button>
+            if(empty($amnt['motive'])){
+              $amnt['motive']='Nothing';
+            }
+                echo"
+            
+                <tr data-toggle='tooltip' data-placement='bottom' title='".$amnt['motive']."'>
+                <td>".$amnt['entry_time']."</td>
+                <td>".$amnt['fname']."</td>
+                <td>".$amnt['lname']."</td>
+                <td>".$amnt['phone_number']."</td>
+                
+                </tr>
+            
+                ";
+                
+            }
+        exit();
+           
+        } catch (PDOException $ex){
+            echo $ex->getMessage();
+            }
+    }
+
+    function todayOut(){
+        try {
+            //instance of db
+            $conn = new Database();
+            //get connection
+        $db=$conn->getdbconnect();
+        //query
+        $results=mysqli_query($db,"SELECT * FROM `vistors` WHERE Date(`entry_time`) = CURDATE() and exit_time is null ORDER BY vistors_ID desc");
+        return $results;
+           
+        } catch (PDOException $ex){
+            echo $ex->getMessage();
+            }
+    }
 }
 
 ?>

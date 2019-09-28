@@ -42,7 +42,15 @@
     width:inherit;
     height:60%;
 }
+.today_label{
+    
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
 
+}
 /* .card_les {
     float: left;
     max-width: 33.333%;
@@ -74,10 +82,27 @@
     #lst_coat{
        width:96%;
        border: 50px solid;
+       height:100%;
+    }
+    #form{
+        width: inherit;
+        height:inherit;
     }
     .btn_login{
+        /* position: absolute; */
         width:100%;
         
         
     }
+    }
+    @media screen and(max-height:600px){
+        #lst_coat{
+            /* width:96%;
+            border: 50px solid; */
+            height:100%;
+         } 
+         #form{
+            width: inherit;
+            height:70%;
+        }
     }
