@@ -21,7 +21,7 @@ if($log_out){
 }
 
 if(!isset($motive)){
-  return "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+  echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
       
   <strong>You missed something, all fields are required</strong>
   <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
@@ -29,6 +29,8 @@ if(!isset($motive)){
   </button>
   </div>
   <br>";
+  header("Location:index.php");
+
 }
 
 

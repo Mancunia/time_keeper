@@ -133,6 +133,25 @@ catch (PDOException $ex){
             echo $ex->getMessage();
             }
     }
+
+    function readVisit($visitID){
+
+        try{
+//instance of db
+$conn = new Database();
+//get connection
+$db=$conn->getdbconnect();
+//query
+$results=mysqli_query($db,"SELECT * FROM `vistors` WHERE vistors_ID='$visitID'");
+return $results;
+
+        }
+        catch (PDOException $ex){
+            echo $ex->getMessage();
+            }
+    }
+
 }
+
 
 ?>

@@ -33,6 +33,31 @@ $guest= new appuser();
   </script>
 
 </head>
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</!-->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <body style="background-color:;">
@@ -44,8 +69,11 @@ $guest= new appuser();
     <div class="nav flex-column nav-pills"  id="v-pills-tab" role="tablist" aria-orientation="vertical">
       <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Today</a>
       <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">All-Time</a>
-      <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Range</a>
-      <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Search</a>
+      <a type="button" class="nav-link active" id="v-pills-tab" data-toggle="modal" data-target="#exampleModal" >
+  Range
+</a>
+      <!-- <a class=""  data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Range</a> -->
+      <!-- <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Search</a> -->
     </div>
   </div>
    <!--End Sidebar -->
@@ -68,10 +96,12 @@ Logged in <span class="badge badge-light"><?php echo mysqli_num_rows($results) ?
       <table class="table table-striped table-bordered table-hover">
   <thead class="thead-dark">
     <tr>
-      <th scope="col">Time</th>
+    <th scope="col">Time</th>
       <th scope="col">First Name</th>
       <th scope="col">Last Name</th>
       <th scope="col">Phone</th>
+      <th scope="col">Details</th>
+
     </tr>
   </thead>
 
@@ -83,15 +113,15 @@ Logged in <span class="badge badge-light"><?php echo mysqli_num_rows($results) ?
     $amnt['motive']='Nothing';
   }
       echo"
-  
       <tr data-toggle='tooltip' data-placement='bottom' title='".$amnt['motive']."'>
       <td>".$amnt['entry_time']."</td>
       <td>".$amnt['fname']."</td>
       <td>".$amnt['lname']."</td>
       <td>".$amnt['phone_number']."</td>
-      
+      <td>
+      <a class='btn btn-dark card-link' href='visit_details.php?visitId=".$amnt['vistors_ID']."'> Detail </a>
+      </td>
       </tr>
-  
       ";
       
   }
@@ -121,6 +151,7 @@ Logged in <span class="badge badge-light"><?php echo mysqli_num_rows($results) ?
       <th scope="col">First Name</th>
       <th scope="col">Last Name</th>
       <th scope="col">Phone</th>
+      <th scope="col">Details</th>
     </tr>
   </thead>
   <tbody>
@@ -139,7 +170,9 @@ Logged in <span class="badge badge-light"><?php echo mysqli_num_rows($results) ?
       <td>".$amnt['fname']."</td>
       <td>".$amnt['lname']."</td>
       <td>".$amnt['phone_number']."</td>
-      
+      <td>
+      <a class='btn btn-dark card-link' href='visit_details.php?visitId=".$amnt['vistors_ID']."'> Detail </a>
+      </td>
       </tr>
   
       ";
@@ -189,11 +222,11 @@ $search_results=mysqli_query($db->getdbconnect(),"SELECT * FROM vistors order by
 <table id="dtBasicExample" class="table table-striped table-bordered" cellspacing="0" width="100%">
   <thead class="thead-dark">
     <tr>
-      <th scope="col">Time In</th>
-      <th scope="col">Time Out</th>
+    <th scope="col">Time</th>
       <th scope="col">First Name</th>
       <th scope="col">Last Name</th>
       <th scope="col">Phone</th>
+      <th scope="col">Details</th>
     </tr>
   </thead>
   <tbody>
@@ -201,14 +234,16 @@ $search_results=mysqli_query($db->getdbconnect(),"SELECT * FROM vistors order by
 while($amnt=mysqli_fetch_array($search_results)){
   echo"
   
-      <tr data-toggle='tooltip' data-placement='bottom' title='".$amnt['motive']."'>
-      <td>".$amnt['entry_time']."</td>
-      <td>".$amnt['exit_time']."</td>
-      <td>".$amnt['fname']."</td>
-      <td>".$amnt['lname']."</td>
-      <td>".$amnt['phone_number']."</td>
-      
-      </tr>
+  <tr data-toggle='tooltip' data-placement='bottom' title='".$amnt['motive']."'>
+  <td>".$amnt['entry_time']."</td>
+  <td>".$amnt['fname']."</td>
+  <td>".$amnt['lname']."</td>
+  <td>".$amnt['phone_number']."</td>
+  <td>
+  <a class='btn btn-dark card-link' href='visit_details.php?visitId=".$amnt['vistors_ID']."'> Detail </a>
+  </td>
+  </tr>
+
   
       ";
 }
