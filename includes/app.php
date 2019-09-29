@@ -143,7 +143,8 @@ $conn = new Database();
 $db=$conn->getdbconnect();
 //query
 $results=mysqli_query($db,"SELECT * FROM `vistors` WHERE vistors_ID='$visitID'");
-return $results;
+$result=mysqli_fetch_array($results);
+return $result;
 
         }
         catch (PDOException $ex){

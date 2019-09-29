@@ -5,6 +5,14 @@ include_once 'includes/app.php';
 $db = new Database();
 $guest= new appuser();
 
+if(isset($_POST['range_btn'])){
+  echo"
+  <script>
+  alert('Wooow');
+  </script>
+  ";
+}
+
 
 
 ?>
@@ -43,18 +51,27 @@ $guest= new appuser();
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Search Speacification</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        ...
+      <!-- Search specification -->
+        <form action="" class="form-group" method="POST">
+        <div class="row">
+    <div class="col">
+      <input type="date" class="form-control" placeholder=" Starting Date" name="st_date">
+    </div>
+    <div class="col">
+      <input type="date" class="form-control" placeholder="Ending Date" name="end_date">
+    </div>
+  </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="submit" class="btn btn-primary" name="range_btn">Search</button>
       </div>
+      </form>
     </div>
   </div>
 </div>
@@ -69,7 +86,7 @@ $guest= new appuser();
     <div class="nav flex-column nav-pills"  id="v-pills-tab" role="tablist" aria-orientation="vertical">
       <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Today</a>
       <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">All-Time</a>
-      <a type="button" class="nav-link active" id="v-pills-tab" data-toggle="modal" data-target="#exampleModal" >
+      <a type="button" class="nav-link btn-dark" id="v-pills-tab" data-toggle="modal" data-target="#exampleModal" >
   Range
 </a>
       <!-- <a class=""  data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Range</a> -->
@@ -119,7 +136,7 @@ Logged in <span class="badge badge-light"><?php echo mysqli_num_rows($results) ?
       <td>".$amnt['lname']."</td>
       <td>".$amnt['phone_number']."</td>
       <td>
-      <a class='btn btn-dark card-link' href='visit_details.php?visitId=".$amnt['vistors_ID']."'> Detail </a>
+      <a class='btn btn-dark card-link' href='visit_details.php?visitId=".$amnt['vistors_ID']."'> Enter </a>
       </td>
       </tr>
       ";
@@ -171,7 +188,7 @@ Logged in <span class="badge badge-light"><?php echo mysqli_num_rows($results) ?
       <td>".$amnt['lname']."</td>
       <td>".$amnt['phone_number']."</td>
       <td>
-      <a class='btn btn-dark card-link' href='visit_details.php?visitId=".$amnt['vistors_ID']."'> Detail </a>
+      <a class='btn btn-dark card-link' href='visit_details.php?visitId=".$amnt['vistors_ID']."'> Enter </a>
       </td>
       </tr>
   
@@ -240,7 +257,7 @@ while($amnt=mysqli_fetch_array($search_results)){
   <td>".$amnt['lname']."</td>
   <td>".$amnt['phone_number']."</td>
   <td>
-  <a class='btn btn-dark card-link' href='visit_details.php?visitId=".$amnt['vistors_ID']."'> Detail </a>
+  <a class='btn btn-dark card-link' href='visit_details.php?visitId=".$amnt['vistors_ID']."'> Enter </a>
   </td>
   </tr>
 
