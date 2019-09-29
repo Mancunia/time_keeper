@@ -5,13 +5,15 @@ include_once 'includes/app.php';
 $db = new Database();
 $guest= new appuser();
 
-if(isset($_POST['range_btn'])){
-  echo"
-  <script>
-  alert('Wooow');
-  </script>
-  ";
-}
+if(isset($_GET['range_btn'])){
+  extract($_GET);
+
+  if(empty($stdate)&&empty($enddate)){
+      header("Location:admin.php");
+  }
+
+header( "Location: range.php?st=".$stdate." &end=".$enddate);
+  }
 
 
 
@@ -58,18 +60,18 @@ if(isset($_POST['range_btn'])){
       </div>
       <div class="modal-body">
       <!-- Search specification -->
-        <form action="" class="form-group" method="POST">
+        <form action="admin.php" class="form-group" method="GET">
         <div class="row">
     <div class="col">
-      <input type="date" class="form-control" placeholder=" Starting Date" name="st_date">
+      <input type="date" class="form-control" placeholder=" Starting Date" name="stdate">
     </div>
     <div class="col">
-      <input type="date" class="form-control" placeholder="Ending Date" name="end_date">
+      <input type="date" class="form-control" placeholder="Ending Date" name="enddate">
     </div>
   </div>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" name="range_btn">Search</button>
+        <input type="submit" class="btn btn-primary" name="range_btn">
       </div>
       </form>
     </div>

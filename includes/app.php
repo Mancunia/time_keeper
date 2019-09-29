@@ -4,6 +4,16 @@ include_once 'conn.php';
 class appuser{
    
     private $conn;
+
+//loggin function for users 
+    function userLogin($userName,$passWord){
+        try {
+            //code...
+        } catch (PDOException $ex){
+            echo $ex->getMessage();
+            }
+
+    }
     // 
 
     //sign-in, visitor Enters GRA
@@ -148,6 +158,34 @@ return $result;
 
         }
         catch (PDOException $ex){
+            echo $ex->getMessage();
+            }
+    }
+
+    function rangeSearch($st_date,$en_date){
+        try {
+            //instance of db
+$conn = new Database();
+
+//get connection
+$results=mysqli_query($conn->getdbconnect(),"call looking_for('$st_date','$en_date')");
+
+if(mysqli_num_rows($results)==0){
+    echo"<div class='alert alert-warning alert-dismissible fade show' role='alert'>
+              
+    <strong>Hmmmmm</strong>Nothing t show here
+    <a type='button' class='btn btn-primary btn_login'  href='admin.php'>
+Go back
+</a>
+    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+      <span aria-hidden='true'>&times;</span>
+    </button>
+    </div>
+    <br>"; 
+}
+$result=mysqli_fetch_array($results);
+return $results;
+        } catch (PDOException $ex){
             echo $ex->getMessage();
             }
     }
