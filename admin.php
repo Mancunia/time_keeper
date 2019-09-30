@@ -1,4 +1,11 @@
 <?php
+session_start();
+if(!isset($_SESSION)){
+  header("Location:index.php");
+}
+
+extract($_SESSION);
+
 include 'links.php';
 include_once 'includes/conn.php';
 include_once 'includes/app.php';
@@ -14,6 +21,7 @@ if(isset($_GET['range_btn'])){
 
 header( "Location: range.php?st=".$stdate." &end=".$enddate);
   }
+  
 
 
 
@@ -83,12 +91,25 @@ header( "Location: range.php?st=".$stdate." &end=".$enddate);
 
 
 <div class="row">
+
   <div class="col-2 bg-dark" style="height:inherit; width:20%;">
+  <div class="container">
+<!--Admin details -->
+<?php
+echo "<h1>".$identify_id.$user_id."</h1>";
+?>
+
+
+</div>
   <!-- Sidebar -->
     <div class="nav flex-column nav-pills"  id="v-pills-tab" role="tablist" aria-orientation="vertical">
+    <a type="button" style="color:white;" class="nav-link btn-dark" href="newUser.php">New User </a>
+    <a type="button" style="color:white;" class="nav-link btn-dark" name="logout">
+Logout
+</a><hr>
       <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Today</a>
       <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">All-Time</a>
-      <a type="button" class="nav-link btn-dark" id="v-pills-tab" data-toggle="modal" data-target="#exampleModal" >
+      <a type="button" style="color:white;" class="nav-link btn-dark" id="v-pills-tab" data-toggle="modal" data-target="#exampleModal" >
   Range
 </a>
       <!-- <a class=""  data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Range</a> -->
@@ -304,4 +325,15 @@ $(document).ready(function () {
 $('#dtBasicExample').DataTable();
 $('.dataTables_length').addClass('bs-select');
 });
+</script>
+<script>
+var killing = function(){
+  var php_script="
+  <?php 
+  $guest->killsession();
+  header("Location")
+  ?>
+  ";
+  document.write(php_script);
+}
 </script>

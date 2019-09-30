@@ -6,18 +6,31 @@ class appuser{
     private $conn;
 
 //loggin function for users 
-    function userLogin($userName,$passWord){
-        try {
-            //code...
-        } catch (PDOException $ex){
-            echo $ex->getMessage();
-            }
+    // function userLogin($userName,$passWord){
+    //     try {
+    //         //code...
+    //     } catch (PDOException $ex){
+    //         echo $ex->getMessage();
+    //         }
 
-    }
+    // }
     // 
 
+
+    //tracking most activities
+function track($id,$act){
+    try {
+        $conn = new Database();
+        mysqli_query($conn->getdbconnect(),"CALL track('$id','$act')");
+        //code...
+    } catch (PDOException $ex){
+        echo $ex->getMessage();
+        }
+}
+
+
     //sign-in, visitor Enters GRA
-    function sign_in($phone,$fname,$lname,$motive){
+    function check_in($phone,$fname,$lname,$motive){
 // $conn = new Database();
 
 try{
@@ -26,6 +39,8 @@ $sql="call new_visitor('".$phone."','".$fname."','".$lname."','".$motive."')";
 
 mysqli_query($conn->getdbconnect(), $sql);
 mysqli_close($conn->getdbconnect());
+
+track($phone,'checked in');
 return"<div class='alert alert-success alert-dismissible fade show' role='alert'>
       
 <strong>Welcome <img src='./images/gra.jpg'/></strong>
@@ -48,6 +63,7 @@ catch (PDOException $ex){
             $db=$conn->getdbconnect();
         $sql="call logout_visitor('".$phone."')"; 
         mysqli_query($db, $sql);
+        track($phone,'checked out');
         return"<div class='alert alert-success alert-dismissible fade show' role='alert'>
               
         <strong>Leaving<img src='./images/gra.jpg'/></strong> Have a nice day
@@ -81,6 +97,7 @@ catch (PDOException $ex){
             </button>
             </div>
             <br>"; 
+            track($phone,'checkout attempt');
             // mysqli_close($conn); 
             return $log_out;
         }
@@ -182,9 +199,82 @@ Go back
     </button>
     </div>
     <br>"; 
+    // track($phone,'checked in');
 }
 $result=mysqli_fetch_array($results);
 return $results;
+        } catch (PDOException $ex){
+            echo $ex->getMessage();
+            }
+    }
+
+
+
+    function signIn($username,$password){
+try {
+    
+    $conn = new Database();
+//retrive details 
+    $results=mysqli_query($conn->getdbconnect(),"SELECT * FROM time_keeper.users WHERE username='$username' AND password='$password'");
+   //fetch into an array
+    $result=mysqli_fetch_array($results);
+
+    if($result['username']==$username&&$result['password']==$password){
+        if($result['status']=="active"){
+            $sql=" UPDATE `time_keeper`.`users` SET `now`='1' WHERE `users_ID`='".$result['users_id']."'";
+            mysqli_query($conn->getdbconnect(),$sql);
+        session_start();
+    $_SESSION['identify_id']=$result['ID_id'];
+    $_SESSION['rank']=$result['rank'];
+    $_SESSION['user_id']=$result['users_ID'];
+
+    // track($username,'signed in');
+
+    header("Location:checkin.php");
+
+        }
+        else{
+            echo "<script>
+            alert('You account is not active!');
+            </script>";
+        }
+    }
+    //code...
+} catch (PDOException $ex){
+    echo $ex->getMessage();
+    }
+
+    }
+
+
+    function killsession($id){
+        try{
+        track($id,'logged out');
+        session_unset();
+ session_destroy();
+
+ header("Location: index.php");
+ exit();
+}catch (PDOException $ex){
+    echo $ex->getMessage();
+    }
+    }
+
+
+//New user
+    function newGuy($username,$password,$rank,$fname,$lname,$dob,$phone,$address,$email,$creator){
+        try {
+            //instance of the DB class
+            $conn=new Database();
+            $db=$conn->getdbconnect();
+            $last_id=mysqli_query($db," INSERT INTO `time_keeper`.`identification` (`fname`, `lname`, `dob`, `phone`, `address`, `email`, `creator`)
+             VALUES ('$fname', '$lname', '$dob', '$phone', '$address', '$email', '$creator')
+SELECT  LAST_INSERT_ID() FROM identification
+
+            ");
+            mysqli_query($db,"INSERT INTO `time_keeper`.`users` (`username`, `password`, `ID_id`, `rank`, `status`, `now`) 
+            VALUES ('$usename', '$password', '$last_id', '$rank', 'active', '0')
+            ");
         } catch (PDOException $ex){
             echo $ex->getMessage();
             }
