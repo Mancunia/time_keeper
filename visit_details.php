@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'links.php';
 include_once 'includes/conn.php';
 include_once 'includes/app.php';
@@ -18,6 +19,7 @@ if(isset($_GET['visitId'])){
     $phone=$detail['phone_number'];
 
 }
+include 'header.php';
 ?>
 
 

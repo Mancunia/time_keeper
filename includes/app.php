@@ -30,17 +30,16 @@ function track($id,$act){
 
 
     //sign-in, visitor Enters GRA
-    function check_in($phone,$fname,$lname,$motive){
+    function check_in($phone,$fname,$lname,$motive,$under){
 // $conn = new Database();
-
 try{
     $conn = new Database();
-$sql="call new_visitor('".$phone."','".$fname."','".$lname."','".$motive."')";
+$sql="call new_visitor('".$phone."','".$fname."','".$lname."','".$motive."','".$under."')";
 
 mysqli_query($conn->getdbconnect(), $sql);
 mysqli_close($conn->getdbconnect());
 
-track($phone,'checked in');
+// track($phone,'checked in');
 return"<div class='alert alert-success alert-dismissible fade show' role='alert'>
       
 <strong>Welcome <img src='./images/gra.jpg'/></strong>
@@ -56,14 +55,14 @@ catch (PDOException $ex){
     }
 
     //Logout, visitor leaving GRA
-    function sign_out($phone){
+    function sign_out($phone,$under){
         try{
             
             $conn = new Database();
             $db=$conn->getdbconnect();
-        $sql="call logout_visitor('".$phone."')"; 
+        $sql="call logout_visitor('".$phone."','".$under."')"; 
         mysqli_query($db, $sql);
-        track($phone,'checked out');
+        // track($phone,'checked out');
         return"<div class='alert alert-success alert-dismissible fade show' role='alert'>
               
         <strong>Leaving<img src='./images/gra.jpg'/></strong> Have a nice day
@@ -97,7 +96,7 @@ catch (PDOException $ex){
             </button>
             </div>
             <br>"; 
-            track($phone,'checkout attempt');
+            // track($phone,'checkout attempt');
             // mysqli_close($conn); 
             return $log_out;
         }
@@ -249,7 +248,7 @@ try {
 
     function killsession($id){
         try{
-        track($id,'logged out');
+        // track($id,'logged out');
         session_unset();
  session_destroy();
 
@@ -267,14 +266,27 @@ try {
             //instance of the DB class
             $conn=new Database();
             $db=$conn->getdbconnect();
-            $last_id=mysqli_query($db," INSERT INTO `time_keeper`.`identification` (`fname`, `lname`, `dob`, `phone`, `address`, `email`, `creator`)
-             VALUES ('$fname', '$lname', '$dob', '$phone', '$address', '$email', '$creator')
-SELECT  LAST_INSERT_ID() FROM identification
+            //add info to ID table
+            mysqli_query($db," INSERT INTO `time_keeper`.`identification` (`fname`, `lname`, `dob`, `phone`, `address`, `email`, `creator`)
+             VALUES ('$fname', '$lname', '$dob', '$phone', '$address', '$email', '$creator')");
+            //get last added ID
+            $last_id=mysqli_query($db,"SELECT identification_ID FROM identification ORDER BY identification_ID DESC LIMIT 1");
+$last_id=mysqli_fetch_array($last_id);
+$id=$last_id['identification_ID'];
+echo $id;
 
-            ");
+//Create account
             mysqli_query($db,"INSERT INTO `time_keeper`.`users` (`username`, `password`, `ID_id`, `rank`, `status`, `now`) 
-            VALUES ('$usename', '$password', '$last_id', '$rank', 'active', '0')
-            ");
+            VALUES ('$username', '$password', '$id', '$rank', 'active', '0')");
+            
+            return"<div class='alert alert-success alert-dismissible fade show' role='alert'>
+              
+            <strong>Awesome</strong>Account successfully created
+                        <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+              <span aria-hidden='true'>&times;</span>
+            </button>
+            </div>
+            <br>"; 
         } catch (PDOException $ex){
             echo $ex->getMessage();
             }
